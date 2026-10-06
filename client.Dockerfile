@@ -24,5 +24,8 @@ RUN REACT_APP_API_URL=${REACT_APP_API_URL} npx vite build
 
 FROM nginx:1.27-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Drop the image's stock welcome page first: COPY merges into the directory, and the Wasp
+# build ships 200.html rather than index.html, so the stock index.html would otherwise win.
+RUN rm -rf /usr/share/nginx/html/*
 COPY --from=builder /app/.wasp/out/web-app/build /usr/share/nginx/html
 EXPOSE 80
