@@ -1,0 +1,19 @@
+import { Link } from "react-router";
+import { LoginForm } from "wasp/client/auth";
+import { AuthLayout } from "../AuthLayout";
+
+export function LoginPage() {
+  return (
+    <AuthLayout>
+      <LoginForm />
+      <br />
+      <span className="text-sm font-medium text-neutral-900">
+        Don&apos;t have an account yet?{" "}
+        <Link to="/signup" className="font-semibold underline">
+          Go to signup
+        </Link>
+        .
+      </span>
+    </AuthLayout>
+  );
+}

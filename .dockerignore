@@ -1,0 +1,6 @@
+node_modules
+.wasp
+.git
+.env.server
+.env.client
+*.log
