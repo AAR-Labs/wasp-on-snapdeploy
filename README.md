@@ -13,14 +13,14 @@ The only change to the template: username + password auth instead of email auth,
 
 Full guide: https://snapdeploy.dev/deploy-wasp-app
 
-1. **Database** — create a PostgreSQL add-on (the $1 DB Sprint Pack is enough to try it). Copy its `DATABASE_URL`.
+1. **Database** — create a PostgreSQL add-on (Add-ons → Add Database → PostgreSQL; Mini, $29/month, is enough for most apps). Copy its `DATABASE_URL`, or link the add-on to the server container and it is injected.
 2. **Server** — Deploy from GitHub → this repository → branch `main` → Dockerfile path `Dockerfile`. Environment variables before the first build:
    - `DATABASE_URL` — from step 1
    - `JWT_SECRET` — any random string of at least 32 characters
    - `WASP_SERVER_URL` — the server container's URL (shown in the dashboard, `https://<name>.containers.snapdeploy.app`)
    - `WASP_WEB_CLIENT_URL` — the client container's URL; set it after step 3 (a placeholder is fine for the first build)
    SnapDeploy injects `PORT` to match the container port (3001).
-3. **Client** — Deploy from GitHub → same repository → Dockerfile path `client.Dockerfile`. Environment variable before the first build:
+3. **Client** — SnapDeploy links one container per repository branch, so create a `client` branch kept equal to `main` (`git push origin main:client`), then Deploy from GitHub → same repository, branch `client` → Dockerfile path `client.Dockerfile`. Environment variable before the first build:
    - `REACT_APP_API_URL` — the server URL from step 2. SnapDeploy passes `REACT_APP_*` variables into the build; Vite bakes the value into the JavaScript.
 4. Go back to the server container, set `WASP_WEB_CLIENT_URL` to the client URL, redeploy. Open the client URL, sign up, add a task.
 
